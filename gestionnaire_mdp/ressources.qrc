@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>Images/ajouter_icon.png</file>
+        <file>Images/changer_icon.png</file>
+        <file>Images/chrome.png</file>
+        <file>Images/exporter_icon.png</file>
+        <file>Images/firefox.jpg</file>
+        <file>Images/Generate_keys_icon.png</file>
+        <file>Images/Generate_password_icon.png</file>
+        <file>Images/icon_clef_cryptage.png</file>
+        <file>Images/icon_global.jpg</file>
+        <file>Images/image_copier.png</file>
+        <file>Images/internet_explorer.png</file>
+        <file>Images/lien_hyper_texte.png</file>
+        <file>Images/putty.png</file>
+        <file>Images/recherche_icon.jpg</file>
+        <file>Images/ssh.ico</file>
+        <file>Images/telnet.jpeg</file>
+    </qresource>
+</RCC>

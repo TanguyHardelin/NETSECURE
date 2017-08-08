@@ -2,6 +2,8 @@
 #define CREERAUTHAURISATION_H
 
 #include <QDialog>
+#include <QtSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 
 namespace Ui {
 class CreerAuthaurisation;
@@ -13,20 +15,29 @@ class CreerAuthaurisation : public QDialog
 
 public:
     explicit CreerAuthaurisation(QStringList const &all_name,QWidget *parent = 0);
-    bool update_BDD();
+    void update();
     ~CreerAuthaurisation();
 
 signals:
-    void clef_finie(QString clef);
+    void finish(QString nom);
 
 public slots:
-    void generation_clef();
+    void readSerial();
+    bool update_BDD();
 
 private:
-
     Ui::CreerAuthaurisation *ui;
     QStringList _list_name;
     QString _clef;
+
+
+    //Communication serie:
+    QSerialPort *arduino;
+    static const quint16 arduino_uno_vendor_id = 10755;  //INFO A REMPLIR POUR CHAQUE NOUVEL ARDUINO
+    static const quint16 arduino_uno_product_id = 67;  //INFO A REMPLIR POUR CHAQUE NOUVEL ARDUINO
+    QByteArray serialData;
+    QString serialBuffer;
+    QString parsed_data;
 };
 
 #endif // CREERAUTHAURISATION_H

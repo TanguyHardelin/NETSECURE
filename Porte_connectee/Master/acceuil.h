@@ -4,7 +4,6 @@
 #include <QWidget>
 
 #include "creerauthaurisation.h"
-#include "generation_qrcode.h"
 
 namespace Ui {
 class Acceuil;
@@ -25,16 +24,18 @@ public:
     ~Acceuil();
 public slots:
     void creerNouvelleAutorisation();
-    void faire_recherche();
-    void montrerFenetreQrCode(QString clef);
+    void faire_recherche(QString nom="");
+    bool update_BDD();
+    void supprimer_utilisateur();
 
 private:
     Ui::Acceuil *ui;
     CreerAuthaurisation* fen_nouvelle_authorisation;
-    Generation_QrCode* fen_qrcode;
+
 
     QStringList *_list_name_porte;
     QStringList *_list_name_utilisateur;
+    QString nom_utilisateur;
 };
 
 #endif // ACCEUIL_H

@@ -1,7 +1,9 @@
 #include <QSqlQuery>
+#include <QDebug>
 
 #include "row_of_list_acces.h"
 #include "ui_row_of_list_acces.h"
+#include "dialog_log.h"
 
 row_of_list_acces::row_of_list_acces(QString nom_porte,QString id_porte,QString id_utilisateur,QWidget *parent) :
     QWidget(parent),
@@ -39,6 +41,7 @@ row_of_list_acces::row_of_list_acces(QString nom_porte,QString id_porte,QString 
     //Les connects:
     QObject::connect(ui->bouton_autoriser,SIGNAL(clicked()),this,SLOT(autoriser_acces()));
     QObject::connect(ui->bouton_refuser,SIGNAL(clicked()),this,SLOT(supprimer_acces()));
+    QObject::connect(ui->bouton_log,SIGNAL(clicked()),this,SLOT(show_log()));
 
 }
 void row_of_list_acces::autoriser_acces(){
@@ -56,6 +59,12 @@ void row_of_list_acces::supprimer_acces(){
     QSqlQuery query;
     query.exec("DELETE FROM access WHERE id_utilisateur='"+id_utilisateur+"' AND id_porte='"+id_porte+"'");
     while(query.next());
+}
+void row_of_list_acces::show_log(){
+   qDebug()<<"Log pour: "+id_porte;
+   fenetre_log=new Dialog_log(id_porte);
+   fenetre_log->show();
+
 }
 
 row_of_list_acces::~row_of_list_acces()
