@@ -1,0 +1,2 @@
+sudo python -m pip install pyserial
+sudo apt-get install python-mysqldb

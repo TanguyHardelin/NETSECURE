@@ -1,0 +1,27 @@
+sudo apt-get install i2c-tools
+sudo apt-get install python-smbus
+
+
+Enabling I2c device in Raspberry Pi. Pi is ready to go with I2C as far as enabling the hardware goes. You will need to open LX Terminal and enter the following command:
+
+sudo nano /etc/modules
+
+And add these two lines to the end of the file:
+
+    i2c-bcm2708
+    i2c-dev
+
+
+Depending on your distribution, you may also have to edit a file which comes under
+
+sudo nano /etc/modprobe.d/raspi-blacklist.conf 
+
+blacklist spi-bcm2708
+blacklist i2c-bcm2708
+
+Edit and comment the above two lines by putting a “#” infront of them
+
+#blacklist spi-bcm2708
+#blacklist i2c-bcm2708
+
+for more info visit: https://blogspot.tenettech.com/reading-temperature-from-tmp102-temperature-sensor-using-raspberry-pi.html

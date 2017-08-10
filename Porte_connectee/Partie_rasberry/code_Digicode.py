@@ -4,6 +4,7 @@ from threading import Thread
 import random
 import time
 import serial
+from gpio import *
 
 class Code_Digicode (Thread):
 	def __init__(self, serial_digicode):
@@ -17,7 +18,7 @@ class Code_Digicode (Thread):
 		self.gen_random_code()
 
 	def run(self):
-		while(1):
+		while(self.check_arret()):
 			data=self.ser_ecran.readline().split('\n')[0].split('\r')[0]
 			if(len(data)>0):
 				print data
@@ -39,9 +40,11 @@ class Code_Digicode (Thread):
 
 				if(len(self.user_input)==len(self.random_code[self.index_code])):
 					if(self.user_input==self.random_code[self.index_code]):
-						print ("Ouverture porte")
-						self.index_code+=1
-						self.sleeping_time=10
+						if(moteur_en_mvt==0):
+							print ("Ouverture porte")
+							self.index_code+=1
+							self.sleeping_time=10
+							ouvre()
 
 					else:
 						print("Erreur et attente")
@@ -50,6 +53,13 @@ class Code_Digicode (Thread):
 						self.sleeping_time*=2
 						self.ser_ecran.write("N")
 						self.user_input=""
+
+	def check_arret(self):
+		fichier=open(".arret.txt")
+		texte=fichier.read()
+		if(texte=="1"):
+			return False
+		return True
 
 	def gen_random_code(self):
 		 for i in range (100):

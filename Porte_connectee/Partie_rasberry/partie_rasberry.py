@@ -11,6 +11,7 @@ import os
 
 from code_NFC import *
 from code_Digicode import *
+from gpio import *
 
 
 def installation():
@@ -199,9 +200,9 @@ print("Branchez l'arduino de NFC sur une liaison USB du raspberry")
 initialisation_arduino_NFC(0,index_ecran)
 connexion_BDD()
 
-################################################################
-#				Mise à jour au début du programme						#
-################################################################
+#Initialisation du GPIO:
+init()
+
 thread_NFC=Code_NFC(ser_NFC,db,id_porte)
 thread_digicode=Code_Digicode(ser_ecran)
 
