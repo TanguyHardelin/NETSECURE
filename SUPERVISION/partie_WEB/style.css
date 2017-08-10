@@ -1,0 +1,340 @@
+.recherche_date{
+	display:flex;
+	margin-left:15px;
+}
+.pull-right {
+  float: right !important;
+}
+.row-bottom-margin{
+	margin-bottom:5px;
+}
+.bouton_graph
+{
+	background-image:url("Images/image_graphique.png");
+}
+#title_graph
+{
+	top:5%;
+	width:80%;
+	margin:auto;
+}
+#param_select_graph
+{
+	display: inline-flex;
+}
+#revenir_all_ip{
+	border: none;
+	padding: 15px 32px;	
+	background-color: #f44336;
+	color:white;
+	margin-right: 100px;
+}
+#valider_date{
+	border: none;
+	padding: 15px 32px;	
+	background-color: #f44336;
+	color:white;
+	margin-right: 100px;
+	
+}
+#voir_interuption{
+	border: none;
+	padding: 15px 32px;	
+	background-color: #f44336;
+	color:white;
+}
+#heure_debut_p{
+	margin-right: 100px;
+}
+#heure_fin_p{
+	margin-right: 100px;
+}
+#champ_date_p{
+	margin-right: 100px;
+}
+
+
+
+
+
+
+#title_graph
+{
+	position:fixed;
+	top:100px;
+	left: 45%;
+	
+}
+#graphdiv_ping .dygraph-label { font-family: Georgia,Verdana,serif; }
+#graphdiv_ping .dygraph-title {
+text-align: center;
+margin-top: 0px;
+}
+#graphdiv_ping .dygraph-ylabel { font-size: 18px; text-shadow: -2px 2px 2px gray; }
+.chart { border: 1px dashed black; margin: 5px 5px 5px 50px; padding: 2px; }
+
+#graphdiv_tension .dygraph-label { font-family: Georgia,Verdana,serif; }
+#graphdiv_tension .dygraph-title {
+text-align: center;
+margin-top: 0px;
+}
+#graphdiv_tension .dygraph-ylabel { font-size: 18px; text-shadow: -2px 2px 2px gray; }
+.chart { border: 1px dashed black; margin: 5px 5px 5px 50px; padding: 2px; }
+
+
+#graphdiv_courant .dygraph-label { font-family: Georgia,Verdana,serif; }
+#graphdiv_courant .dygraph-title {
+text-align: center;
+margin-top: 0px;
+}
+#graphdiv_courant .dygraph-ylabel { font-size: 18px; text-shadow: -2px 2px 2px gray; }
+
+#graphdiv_temperature .dygraph-label { font-family: Georgia,Verdana,serif; }
+#graphdiv_temperature .dygraph-title {
+text-align: center;
+margin-top: 0px;
+}
+#graphdiv_temperature .dygraph-ylabel { font-size: 18px; text-shadow: -2px 2px 2px gray; }
+
+.div_graph{
+	position:relative; 
+	width: 100%; 
+	height: 320px;
+}
+.chart { border: 1px dashed black; margin: 5px 5px 5px 50px; padding: 2px; }
+
+.haut_header
+{
+	max-width:50%;
+	height:15%;
+	display: inline-flex;
+}
+.haut_tableau
+{
+	display:inline-flex;
+	flex-direction:row;
+	padding-left:200px;
+
+}
+#logo{
+	width:15%;
+	height:15%;
+}
+.ip_ok
+{
+	display: flex;
+	color: black;
+	height:50px;
+}
+
+.ip_ko
+{
+	display: flex;
+	background-color: #E87300;
+	border: #E87300 10px solid;
+	border-radius:100px;
+	margin:5px;
+	height:50px;
+}
+#all_ip
+{
+	padding-left:0px;
+	height:800px;
+	overflow: auto;
+
+}
+#haut_tableau_div
+{
+	width: 80%;
+	display:flex;
+	margin:auto;
+
+
+
+
+}
+.content-site
+{
+	width: 80%;
+	display:flex;
+	margin:auto;
+
+
+}
+nav
+{
+	display: flex;
+	flex-direction:column;
+	justify-content:center;
+	align-content:center;
+	flex:2;
+	position: absolute;
+	top:100px;
+	left:0px;
+}
+.bouton_nav
+{
+	background:white;
+	border: none;
+	text-decoration: none;	
+	font-size: 1em;
+	margin:5px;
+
+
+}
+.menu_haut
+{
+	background:white;
+	border: none;
+	text-decoration: none;	
+	font-size: 1.5em;
+	margin:5px;
+	justify-content:center;
+	align-content:center;
+}
+.menu_haut:hover
+{
+	color:red;
+}
+#bouton_menu{
+	margin-left:15px;
+	margin-right:100px;
+}
+#parametre
+{
+	position:absolute;
+	top:0px;
+	right:0px;
+	background:white;
+	border: none;
+	text-decoration: none;	
+	font-size: 1.5em;
+	margin:5px;
+	justify-content:center;
+	align-content:center;
+}
+footer
+{
+	display:flex;
+	top: 1000px;
+}
+.param_temps
+{
+	display: flex;
+}
+#parametre_div
+{
+	visibility:hidden;
+}
+
+
+
+
+/* DEBUT calendrier JS : jsSimpleDatePickr */
+#calendarMain1, #calendarMain2{
+    margin-left: 20%;
+}
+/* conteneur calendrier */
+.calendarWrap{
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    width: 210px;
+    padding: 5px 10px 10px 10px;
+    background-color: #2e373f;
+    /*background-color: rgba(46, 55, 63, 0.95);*/
+    border-radius: 10px;
+    -moz-box-shadow: 0 0 10px #555;
+    -webkit-box-shadow: 0 0 10px #555;
+    box-shadow: 0 0 10px #555;
+    font-size: 12px;
+}
+/* bouton d'affichage*/
+#calendarMain1 > input, #calendarMain2 > input{
+    display: block;
+    width: 100px;
+    height: 22px;
+    padding-top: 2px;
+    background-color: #2e373f;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+}
+#calendarMain1 > input:hover, #calendarMain2 > input:hover{
+    background-color: #2673cb;
+}
+/* navigation dans le calendrier */
+.calendarWrap ul{
+    margin: 5px 0 10px 0;
+    padding: 0;
+}
+.calendarWrap li{
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    display: inline-block;
+    *display: inline;
+}
+.calendarWrap li.calendarTitle{
+    width: 170px;
+    color: #ccc;
+    text-align: center;
+}
+.calendarWrap li input{
+    width: 20px;
+    background-color: #5d6f7f;
+    border: none;
+    color: #fff;
+}
+.calendarWrap li input:hover{
+    background-color: #6f8598;
+}
+/* calendrier */
+.jsCalendar{
+    color: #fff;
+    border-collapse: collapse;
+}
+.jsCalendar th{
+    color: #8ba7bf;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+}
+.jsCalendar td{
+    padding: 0;
+    border: none;
+}
+.jsCalendar a{
+    display: block;
+    width: 30px;
+    padding: 3px 0 3px 0;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+.jsCalendar .day:hover a{
+    background-color: #2673cb;
+    border-color: #2673cb;
+}
+.jsCalendar .selectedDay a{
+    background-color: #c44d38;
+    border-color: #c44d38;
+}
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+/* FIN calendrier JS : jsSimpleDatePickr */
+
+
+ // in case your dealing with a block element apply this to the element itself 
+.center-block {
+   margin-left:auto;
+   margin-right:auto;
+   display:block;
+}
+// in case your dealing with a inline element apply this to the parent 
+.text-center {
+   text-align:center
+}
