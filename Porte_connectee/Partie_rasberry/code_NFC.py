@@ -20,7 +20,7 @@ class FuncThread(threading.Thread):
 class Code_NFC (Thread):
 	def __init__(self, serial_NFC,db, id_porte):
 		Thread.__init__(self)
-		self.ser_NFC=serial.Serial("/dev/ttyACM1",115200,timeout=1)
+		self.ser_NFC=ser_NFC
 		self.infos=[]
 		self.db=db
 		self.id_porte=id_porte
@@ -29,32 +29,37 @@ class Code_NFC (Thread):
 		self.t1=0	#Permet d'eviter d'avoir plein de log pour une clef une clef inutilement
 
 	def run(self):
+			"""
+				Fonction executée par le thread. Contient la boucle de simulation de la partie NFC
+			"""
 			while(self.check_arret()):
 				#############################
 				#			MIS A JOUR			 #
 				#############################
 				self.mise_a_jour()
+				print("Mise à jour")
 				#############################
 				#			LECTURE NFC  		 #
 				#############################
 				data=self.ser_NFC.readline().split('\n')[0].split('\r')[0]
 				if(len(data)>1):
-
 					if(self.verification_clef(data)==True):
 						if(moteur_en_mvt==0):
 							print("Ouverture porte")	
-							t0=FuncThread(ouvre)
-							t0.start()
-							t0.join()
+							t1=FuncThread(ouvre)
+							t1.start()
+							t1.join()
+							
+							#On vide le buffer de la liaison série:
 							while(self.ser_NFC.readline().split('\n')[0].split('\r')[0]!=""):pass
 							data=""
 						else:
 							data=""
 
-
-	
-
 	def check_arret(self):
+		"""
+			Fonction permetant de détecter quand on veut arreter le programme.
+		"""
 		fichier=open(".arret.txt")
 		texte=fichier.read()
 		if(texte=="1"):
@@ -62,6 +67,9 @@ class Code_NFC (Thread):
 		return True
 
 	def mise_a_jour(self):
+		"""
+			Met à jour en fonction de la BDD stocké sur le serveur.
+		"""
 		cur=self.db.cursor()
 		cur.execute("SELECT * FROM access WHERE id_porte="+str(self.id_porte))
 
@@ -85,6 +93,10 @@ class Code_NFC (Thread):
 
 
 	def verification_clef(self,clef):
+		"""
+			Renvoie True si la clef passée en paramètre est bonne
+			False autrement
+		"""
 		#Variables d'authetification:
 		clef_OK=False
 		horraire_OK=False
@@ -118,6 +130,7 @@ class Code_NFC (Thread):
 			if(copie_user["date_debut"]=="NONE"):
 				date_OK=True
 			else:
+				#On verifie si l'uilisateur est bien dans sa période de date autorisé
 				annee_debut=copie_user["date_debut"].split("/")[2]
 				mois_debut=copie_user["date_debut"].split("/")[1]
 				jour_debut=copie_user["date_debut"].split("/")[0]
@@ -131,11 +144,11 @@ class Code_NFC (Thread):
 
 			if(clef_OK==True and horraire_OK==True and date_OK==True):
 				cur=self.db.cursor()
-				#Recuperation de l'identitee de la personne:
+				#Recuperation de l'identitée de la personne:
 				cur.execute("SELECT nom FROM utilisateurs WHERE clef='"+clef+"'")
 				nom=cur.fetchall()[0][0]
 			
-				#On cree le log et on lle met dans la BDD:
+				#On cree le log et on le met dans la BDD:
 				if(time.time()-self.t1>=300 or self.old_clef!=clef):	
 					#300 sec = 5 min
 					log=str(now)+" "+nom
@@ -147,7 +160,7 @@ class Code_NFC (Thread):
 					self.old_clef=clef
 					self.t1=time.time()
 
-
-		return(clef_OK==True and horraire_OK==True and date_OK==True)
+		
+		return (clef_OK==True and horraire_OK==True and date_OK==True)
 			
 	

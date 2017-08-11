@@ -9,7 +9,7 @@ from gpio import *
 class Code_Digicode (Thread):
 	def __init__(self, serial_digicode):
 		Thread.__init__(self)
-		self.ser_ecran=serial.Serial("/dev/ttyACM0",9600,timeout=1)
+		self.ser_ecran=serial_digicode
 		self.random_code=[]
 		self.index_code=0
 		self.user_input=""
@@ -18,6 +18,9 @@ class Code_Digicode (Thread):
 		self.gen_random_code()
 
 	def run(self):
+		"""
+			Fonction executée par le thread. Contient la boucle de simulation de la partie digicode.
+		"""
 		while(self.check_arret()):
 			data=self.ser_ecran.readline().split('\n')[0].split('\r')[0]
 			if(len(data)>0):
@@ -55,6 +58,10 @@ class Code_Digicode (Thread):
 						self.user_input=""
 
 	def check_arret(self):
+		"""
+			Fonction permetant de détecter quand on veut arreter le programme.
+		"""
+
 		fichier=open(".arret.txt")
 		texte=fichier.read()
 		if(texte=="1"):
@@ -62,6 +69,9 @@ class Code_Digicode (Thread):
 		return True
 
 	def gen_random_code(self):
+		 """
+			Fonction retournant 100 codes aléatoires pour le digicode. Ces codes sont aussi écrit dans le fichier .code_file.txt
+		 """
 		 for i in range (100):
 			  code=""
 			  for j in range(8):

@@ -181,7 +181,7 @@ else:
 
 
 ################################################################
-#				Installation et detection des arduino					#
+#				Installation et detection des arduinos					#
 ################################################################
 
 t=raw_input("Voulez vous un ecran de branché sur la porte? [O/N]")
