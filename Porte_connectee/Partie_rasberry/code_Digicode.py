@@ -4,6 +4,7 @@ from threading import Thread
 import random
 import time
 import serial
+import os
 from gpio import *
 
 class Code_Digicode (Thread):
@@ -15,6 +16,7 @@ class Code_Digicode (Thread):
 		self.user_input=""
 		self.id_porte=-1
 		self.sleeping_time=10
+		self.arret=0
 		self.gen_random_code()
 
 	def run(self):
@@ -45,8 +47,10 @@ class Code_Digicode (Thread):
 					if(self.user_input==self.random_code[self.index_code]):
 						if(moteur_en_mvt==0):
 							print ("Ouverture porte")
+							self.arret=1
 							self.index_code+=1
 							self.sleeping_time=10
+							self.user_input=""
 							ouvre()
 
 					else:
@@ -57,16 +61,17 @@ class Code_Digicode (Thread):
 						self.ser_ecran.write("N")
 						self.user_input=""
 
+	def envoie_code_SMS(self,numero):
+		print("NUMERO:"+numero+"FIN")
+		print("./envoie_sms.sh "+str(numero)+" "+str(self.random_code[self.index_code]))
+		os.system("./envoie_sms.sh "+str(numero)+" "+str(self.random_code[self.index_code]))
+
 	def check_arret(self):
 		"""
 			Fonction permetant de détecter quand on veut arreter le programme.
 		"""
-
-		fichier=open(".arret.txt")
-		texte=fichier.read()
-		if(texte=="1"):
-			return False
-		return True
+		if(self.arret==0): return True
+		return False
 
 	def gen_random_code(self):
 		 """

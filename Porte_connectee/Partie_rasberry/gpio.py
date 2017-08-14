@@ -49,7 +49,8 @@ def ouvre():
 		#On attend 2 mins, si au bout de 2 min le capteur de FDC n'est pas enclanché on considère que la porte est en erreur.
 		if(GPIO.input(17)==1):
 			#capteur de FDC, on attend 1 min et on inverse le sens du moteur et on ferme
-			time.sleep(60)
+			RAZ()
+#			time.sleep(60)
 			moteur_en_mvt=2
 			ferme()
 			break

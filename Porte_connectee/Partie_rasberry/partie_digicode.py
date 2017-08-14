@@ -117,7 +117,6 @@ def initialisation_arduino_ecran(index):
 			c=raw_input("Un arduino a été trouvé en /dev/ttyACM"+str(index)+" confirmez vous ? [O/N]")	
 		
 		if(c[0].upper()=='O'):
-			ser_ecran.write("D")
 			return index;
 		else:
 			raise serial.serialutil.SerialException
@@ -146,7 +145,7 @@ def initialisation_arduino_NFC(index,index_ecran):
 				c=raw_input("Un arduino a été trouvé en /dev/ttyACM"+str(index)+" confirmez vous ? [O/N]")	
 			
 			if(c[0].upper()=='O'):
-				return index;
+				return ;
 			else:
 				raise serial.serialutil.SerialException
 
@@ -158,8 +157,7 @@ def initialisation_arduino_NFC(index,index_ecran):
 		time.sleep(0.05)
 		index+=1
 		if(index>100):index=0
-		index=initialisation_arduino_NFC(index,index_ecran)
-	return index
+		initialisation_arduino_NFC(index,index_ecran)
 
 	
 
@@ -193,46 +191,15 @@ while(t[0].upper()!='O' and t[0].upper()!='N'):
 	t=raw_input("Voulez vous un ecran de branché sur la porte? [O/N]")
 
 index_ecran=-1
-role="Simple"
 if(t[0].upper()=='O'):
 	print("Branchez l'arduino de l'ecran sur une liaison USB du raspberry")
 	index_ecran=initialisation_arduino_ecran(0)
-	role="Ecran"
 
-print("Installation de l'arduino NFC")
-print("Branchez l'arduino de NFC sur une liaison USB du raspberry")
-index_NFC=initialisation_arduino_NFC(0,index_ecran)
 connexion_BDD()
 
 #Initialisation du GPIO:
 init()
 
-while(1):
-	if(role=="Ecran"):
-		ser_ecran.write("D")
-	ser_NFC=serial.Serial("/dev/ttyACM"+str(index_NFC),115200,timeout=1)
-	thread_NFC=Code_NFC(ser_NFC,db,id_porte,role)
-	thread_NFC.start()
-
-	#On attend que une clef NFC s'approche:
-	while(thread_NFC.getStatus()=="Recherche"):
-		time.sleep(1)
-
-	if(role=="Ecran"):
-		thread_NFC.join()
-		numero=thread_NFC.get_numero()
-
-		#L'ecran prend la main
-		ser_ecran=serial.Serial("/dev/ttyACM"+str(index_ecran),9600,timeout=1)
-		ser_ecran.write("N")
-		thread_digicode=Code_Digicode(ser_ecran)
-		thread_digicode.start()
-		#On envoie le code par SMS
-		thread_digicode.envoie_code_SMS(numero)
-		thread_digicode.join()
-	else:
-		thread_NFC.join()
-			
-
-
-
+thread_digicode=Code_Digicode(ser_ecran)
+thread_digicode.start()
+thread_digicode.join()
