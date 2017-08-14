@@ -2,6 +2,7 @@
 #define ACCEUIL_H
 
 #include <QWidget>
+#include <QProcess>
 
 #include "creerauthaurisation.h"
 
@@ -19,6 +20,7 @@ public:
     void get_all_name_utilisateur();
     void get_all_name_porte();
     void actualise_adapteur();
+    void ajouter_fen_auth(CreerAuthaurisation *fen_auth);
 
 
     ~Acceuil();
@@ -27,6 +29,7 @@ public slots:
     void faire_recherche(QString nom="");
     bool update_BDD();
     void supprimer_utilisateur();
+    void fermer_fenetre_creation_utilisateur();
 
 private:
     Ui::Acceuil *ui;
@@ -36,6 +39,8 @@ private:
     QStringList *_list_name_porte;
     QStringList *_list_name_utilisateur;
     QString nom_utilisateur;
+    QString old_numero;
+    QSerialPort* arduino;
 };
 
 #endif // ACCEUIL_H

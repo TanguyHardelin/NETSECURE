@@ -11,12 +11,13 @@
 
 using namespace std;
 
-CreerAuthaurisation::CreerAuthaurisation(QStringList const& all_name,QWidget *parent) :
+CreerAuthaurisation::CreerAuthaurisation(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::CreerAuthaurisation),_list_name(all_name)
+    ui(new Ui::CreerAuthaurisation)
 {
     ui->setupUi(this);
     ui->NFC_OK->hide();
+    get_all_name_utilisateur();
 
     /*
     ui->widget_plage_horraire->hide();
@@ -86,6 +87,7 @@ CreerAuthaurisation::CreerAuthaurisation(QStringList const& all_name,QWidget *pa
            arduino->setFlowControl(QSerialPort::NoFlowControl);
            arduino->setParity(QSerialPort::NoParity);
            arduino->setStopBits(QSerialPort::OneStop);
+           arduino->readAll();
            QObject::connect(arduino, SIGNAL(readyRead()), this, SLOT(readSerial()));
 
        }else{
@@ -97,8 +99,16 @@ CreerAuthaurisation::CreerAuthaurisation(QStringList const& all_name,QWidget *pa
     QObject::connect(ui->bouton_annuler,SIGNAL(clicked(bool)),this,SLOT(close()));
     QObject::connect(ui->bouton_valider,SIGNAL(clicked(bool)),this,SLOT(update_BDD()));
 }
+void CreerAuthaurisation::get_all_name_utilisateur(){
+    _list_name=new QStringList;
+    QSqlQuery query;
+    query.exec("SELECT nom FROM utilisateurs");
+    while(query.next()){
+        _list_name->append(query.value(0).toString());
+    }
+}
 void CreerAuthaurisation::update(){
-    //On surcharge la méthode pour permettre de passer pas QSesigner:
+    //On surcharge la méthode pour permettre de passer pas QDesigner:
     this->adjustSize();
 }
 
@@ -137,7 +147,7 @@ void CreerAuthaurisation::readSerial(){
 bool CreerAuthaurisation::update_BDD(){
     bool permition=false;
     bool horraire=false;
-    if(_list_name.contains(ui->edit_nom_prenom->text())){
+    if(_list_name->contains(ui->edit_nom_prenom->text())){
         //Afficher: "ce nom existe déjà"
         qDebug()<<"Ce nom est déjà pris !";
         ui->label_error->setText("Ce nom existe déjà dans la base de donnée. Allez dans \"Rechercher utilisateur\" pour editer ses permitions");
@@ -165,18 +175,20 @@ bool CreerAuthaurisation::update_BDD(){
     }
     QSqlQuery query;
     if(permition && horraire)
-        query.exec("INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','"+ui->_heure_debut->text()+"','"+ui->_heure_fin->text()+"','"+ui->_date_debut->text()+"','"+ui->_date_fin->text()+"')");
+        query.exec("INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin,numero) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','"+ui->_heure_debut->text()+"','"+ui->_heure_fin->text()+"','"+ui->_date_debut->text()+"','"+ui->_date_fin->text()+"','"+ui->edit_numero->text()+"')");
 
     else if(permition){
-        query.exec("INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','NONE','NONE','"+ui->_date_debut->text()+"','"+ui->_date_fin->text()+"')");
-        qDebug()<<"INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','NONE','NONE','"+ui->_date_debut->text()+"','"+ui->_date_fin->text()+"')";
+        query.exec("INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin,numero) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','NONE','NONE','"+ui->_date_debut->text()+"','"+ui->_date_fin->text()+"','"+ui->edit_numero->text()+"')");
+        qDebug()<<"INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin,numero) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','NONE','NONE','"+ui->_date_debut->text()+"','"+ui->_date_fin->text()+"','"+ui->edit_numero->text()+"')";
     }
 
-    else if(horraire)
-        query.exec("INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','"+ui->_heure_debut->text()+"','"+ui->_heure_fin->text()+"','NONE','NONE')");
+    else if(horraire){
+        query.exec("INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin,numero) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','"+ui->_heure_debut->text()+"','"+ui->_heure_fin->text()+"','NONE','NONE','"+ui->edit_numero->text()+"')");
+        qDebug()<<"INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin,numero) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','"+ui->_heure_debut->text()+"','"+ui->_heure_fin->text()+"','NONE','NONE','"+ui->edit_numero->text()+"')";
+    }
 
     else
-        query.exec("INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','NONE','NONE','NONE','NONE')");
+        query.exec("INSERT INTO utilisateurs(nom,clef,heure_debut,heure_fin,date_debut,date_fin,numero) VALUES('"+ui->edit_nom_prenom->text()+"','"+_clef+"','NONE','NONE','NONE','NONE','"+ui->edit_numero->text()+"')");
 
     while(query.next());
 

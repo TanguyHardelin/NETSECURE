@@ -14,8 +14,9 @@ class CreerAuthaurisation : public QDialog
     Q_OBJECT
 
 public:
-    explicit CreerAuthaurisation(QStringList const &all_name,QWidget *parent = 0);
+    explicit CreerAuthaurisation(QWidget *parent = 0);
     void update();
+    void get_all_name_utilisateur();
     ~CreerAuthaurisation();
 
 signals:
@@ -27,7 +28,7 @@ public slots:
 
 private:
     Ui::CreerAuthaurisation *ui;
-    QStringList _list_name;
+    QStringList *_list_name;
     QString _clef;
 
 

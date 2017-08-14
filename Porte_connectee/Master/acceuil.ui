@@ -225,7 +225,7 @@ QTabBar::tab:selected { font: bold; color: black; }
             <x>0</x>
             <y>0</y>
             <width>1039</width>
-            <height>621</height>
+            <height>628</height>
            </rect>
           </property>
          </widget>
@@ -237,7 +237,7 @@ QTabBar::tab:selected { font: bold; color: black; }
       <attribute name="title">
        <string>Page</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
+      <layout class="QVBoxLayout" name="verticalLayout_12">
        <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
@@ -250,6 +250,39 @@ QTabBar::tab:selected { font: bold; color: black; }
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <item>
+          <widget class="QLabel" name="label_10">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Numéro</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="_edit_numero"/>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QGroupBox" name="groupbox_horraire">
@@ -485,44 +518,12 @@ QTabBar::tab:selected { font: bold; color: black; }
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QPushButton" name="bouton_ajouter">
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Ajouter des autorisations</string>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>groupbox_horraire</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>widget_plage_horraire</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>574</x>
-     <y>559</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>720</x>
-     <y>548</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>groupbox_periode</sender>
    <signal>clicked(bool)</signal>
@@ -568,6 +569,22 @@ QTabBar::tab:selected { font: bold; color: black; }
     <hint type="destinationlabel">
      <x>699</x>
      <y>212</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>groupbox_horraire</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>widget_plage_horraire</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>574</x>
+     <y>559</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>720</x>
+     <y>548</y>
     </hint>
    </hints>
   </connection>
